@@ -1,0 +1,3 @@
+# Internal email instructions are not part of the STM deployment package.
+forticlient-gpo-deployment/docs/email_instructions.md
+forticlient-gpo-deployment/docs/email_instructions_STM.md
