@@ -26,7 +26,7 @@ C:\ProgramData\Fortinet\FortiClient\InstallLogs
 Le group tag / Installer ID est:
 
 ```text
-STM-VPN-CERT
+VP_CS_LEGER
 ```
 
 Le profil VPN attendu est:

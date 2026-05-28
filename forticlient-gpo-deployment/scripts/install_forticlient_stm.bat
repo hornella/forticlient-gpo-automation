@@ -8,7 +8,7 @@ REM No interactive prompt is used and no reboot is forced.
 set "PACKAGE_DIR=%~dp0"
 set "MSI_FILE=%PACKAGE_DIR%FortiClient.msi"
 set "MST_FILE=%PACKAGE_DIR%FortiClient.mst"
-set "GROUP_TAG=STM-VPN-CERT"
+set "GROUP_TAG=VP_CS_LEGER"
 set "LOG_DIR=C:\ProgramData\Fortinet\FortiClient\InstallLogs"
 set "LOG_FILE=%LOG_DIR%\FortiClient_STM_install.log"
 set "FORTICLIENT_EXE=C:\Program Files\Fortinet\FortiClient\FortiClient.exe"

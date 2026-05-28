@@ -32,7 +32,7 @@ Les fichiers binaires FortiClient ne sont pas inclus dans ce dépôt.
 - L'installation doit s'exécuter en contexte ordinateur, idéalement `Local System`, ou dans un contexte administratif équivalent.
 - L'installation est silencieuse et ne force pas de redémarrage.
 - Le profil VPN attendu est `VPN-CERT`.
-- L'Installer ID / group tag attendu est `STM-VPN-CERT`.
+- L'Installer ID / group tag attendu est `VP_CS_LEGER`.
 - Le comportement Always-On sera validé séparément et n'est pas codé dans le script.
 - Le VPN breakglass n'est pas inclus par défaut dans ce paquet de déploiement.
 
@@ -107,7 +107,7 @@ MST_FILE=%PACKAGE_DIR%FortiClient.mst
 Le script définit:
 
 ```cmd
-GROUP_TAG=STM-VPN-CERT
+GROUP_TAG=VP_CS_LEGER
 ```
 
 Ce paramètre sert à identifier le groupe ou l'Installer ID attendu. Si l'Installer ID est déjà intégré dans le paquet généré par EMS Cloud, STM/ARTM peut retirer le paramètre `GROUP_TAG="%GROUP_TAG%"` de la commande `msiexec.exe`.

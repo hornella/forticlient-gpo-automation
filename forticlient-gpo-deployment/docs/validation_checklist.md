@@ -5,7 +5,7 @@
 - [ ] Le paquet FortiClient a été généré depuis FortiClient EMS Cloud.
 - [ ] Les fichiers `FortiClient.msi` et `FortiClient.mst` ont été fournis par ARTM.
 - [ ] Les fichiers MSI/MST sont placés dans le même dossier que `install_forticlient_stm.bat`, ou les chemins du script ont été ajustés.
-- [ ] Le group tag / Installer ID attendu est `STM-VPN-CERT`.
+- [ ] Le group tag / Installer ID attendu est `VP_CS_LEGER`.
 - [ ] Le profil attendu est `VPN-CERT`.
 - [ ] Le déploiement ne contient pas de configuration breakglass VPN par défaut.
 - [ ] Le comportement Always-On est exclu de ce script et sera validé plus tard.
@@ -31,7 +31,7 @@
 
 - [ ] Le poste apparaît dans FortiClient EMS Cloud.
 - [ ] Le poste est associé au bon groupe EMS.
-- [ ] L'Installer ID / group tag `STM-VPN-CERT` est reconnu comme prévu.
+- [ ] L'Installer ID / group tag `VP_CS_LEGER` est reconnu comme prévu.
 - [ ] Les politiques attendues sont appliquées au poste.
 
 ## 5. Validation VPN-CERT
