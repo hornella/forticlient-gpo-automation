@@ -153,7 +153,7 @@ At a minimum, validate that:
 - Logs are created under `C:\ProgramData\Fortinet\FortiClient\InstallLogs`.
 - The endpoint appears in EMS.
 - The endpoint is assigned to the expected EMS group through `VP_CS_LEGER`.
-- The appropraite VPN profile is received.
+- The appropriate VPN profile is received.
 
 ## Notes For Maintainers
 
