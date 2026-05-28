@@ -6,35 +6,7 @@ Ce dossier fournit un paquet de déploiement pour installer FortiClient sur des 
 
 Le paquet est prévu pour une installation silencieuse en contexte ordinateur, avec les fichiers MSI/MST générés depuis FortiClient EMS Cloud et fournis par ARTM.
 
-## Contenu du paquet
-
-```text
-forticlient-gpo-deployment/
-├── README_STM_Deploiement_GPO.md
-├── CHANGELOG.md
-├── package/
-│   └── README_PLACE_FORTICLIENT_FILES_HERE.md
-├── scripts/
-│   ├── install_forticlient_stm.bat
-│   └── uninstall_forticlient_stm.bat
-└── docs/
-    ├── validation_checklist.md
-    └── email_instructions_STM.md
-```
-
-Les fichiers binaires FortiClient ne sont pas inclus dans ce dépôt.
-
-## Hypothèses
-
-- Le paquet FortiClient sera généré depuis FortiClient EMS Cloud.
-- Les fichiers `forticlient.msi`, `forticlient.mst` et `forticlientsetup_7.4.7_x64.exe` seront fournis par ARTM.
-- STM déposera le script et les fichiers MSI/MST via GPO.
-- L'installation doit s'exécuter en contexte ordinateur, idéalement `Local System`, ou dans un contexte administratif équivalent.
-- L'installation est silencieuse et ne force pas de redémarrage.
-- Le profil VPN attendu est `VPN-CERT`.
-- L'Installer ID / group tag attendu est `VP_CS_LEGER`.
-- Le comportement Always-On sera validé séparément et n'est pas codé dans le script.
-- Le VPN breakglass n'est pas inclus par défaut dans ce paquet de déploiement.
+Les fichiers binaires FortiClient sont inclus dans ce dépôt.
 
 ## Méthode GPO recommandée
 
@@ -59,7 +31,6 @@ Le script doit être exécuté en contexte ordinateur, avant l'ouverture de sess
 ## Disposition attendue côté STM
 
 Le script suppose que le MSI et le MST se trouvent dans le même dossier que le fichier `.bat`.
-Le dossier `package/` de ce dépôt sert de zone de préparation pour recevoir les fichiers EMS générés par ARTM. Pour l'exécution réelle par GPO, STM doit copier `forticlient.msi` et `forticlient.mst` dans le même dossier que le script, ou ajuster les chemins relatifs dans le script.
 
 Disposition minimale recommandée dans le partage ou l'emplacement GPO:
 
@@ -71,8 +42,6 @@ FortiClient_GPO_STM/
 ├── forticlient.mst
 └── forticlientsetup_7.4.7_x64.exe
 ```
-
-Si STM conserve une structure avec sous-dossiers, il faudra ajuster les variables `MSI_FILE` et `MST_FILE` dans le script.
 
 ## Commande d'installation
 
@@ -160,7 +129,3 @@ La désinstallation peut dépendre des politiques EMS, de la protection contre l
 
 - Le poste apparaît correctement dans EMS.
 - Le poste est placé dans le bon groupe EMS.
-- Le profil `VPN-CERT` est reçu.
-- La connexion VPN par certificat fonctionne.
-- Le comportement Always-On sera validé plus tard.
-- Le comportement de sélection du certificat doit être validé si plusieurs certificats sont présents sur le poste.
