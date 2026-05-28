@@ -153,15 +153,11 @@ At a minimum, validate that:
 - Logs are created under `C:\ProgramData\Fortinet\FortiClient\InstallLogs`.
 - The endpoint appears in EMS.
 - The endpoint is assigned to the expected EMS group through `VP_CS_LEGER`.
-- The `VPN-CERT` profile is received.
-- Certificate-based VPN works.
-- Always-On behavior is validated separately.
-- Certificate selection behavior is validated when multiple certificates exist on the host.
+- The appropraite VPN profile is received.
 
 ## Notes For Maintainers
 
 - Do not commit FortiClient binaries.
 - Do not include credentials or secrets.
-- Keep STM-facing instructions in French.
 - Keep root `README.md` focused on repository/developer context.
 - Keep the release folder small and zip-ready.
