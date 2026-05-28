@@ -3,7 +3,7 @@
 ## 1. Pré-déploiement
 
 - [ ] Le paquet FortiClient a été généré depuis FortiClient EMS Cloud.
-- [ ] Les fichiers `FortiClient.msi` et `FortiClient.mst` ont été fournis par ARTM.
+- [ ] Les fichiers `forticlient.msi`, `forticlient.mst` et `forticlientsetup_7.4.7_x64.exe` ont été fournis par ARTM.
 - [ ] Les fichiers MSI/MST sont placés dans le même dossier que `install_forticlient_stm.bat`, ou les chemins du script ont été ajustés.
 - [ ] Le group tag / Installer ID attendu est `VP_CS_LEGER`.
 - [ ] Le profil attendu est `VPN-CERT`.
@@ -21,7 +21,7 @@
 ## 3. Validation poste Windows
 
 - [ ] FortiClient est installé sur le poste.
-- [ ] Le fichier `C:\Program Files\Fortinet\FortiClient\FortiClient.exe` existe.
+- [ ] FortiClient apparaît dans les applications installées Windows.
 - [ ] Le journal d'installation existe dans `C:\ProgramData\Fortinet\FortiClient\InstallLogs`.
 - [ ] Le journal ne contient pas d'erreur bloquante.
 - [ ] Le code de retour GPO ou Windows Installer est `0`, `3010` ou `1641`.

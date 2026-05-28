@@ -27,7 +27,7 @@ Les fichiers binaires FortiClient ne sont pas inclus dans ce dépôt.
 ## Hypothèses
 
 - Le paquet FortiClient sera généré depuis FortiClient EMS Cloud.
-- Les fichiers `FortiClient.msi` et `FortiClient.mst` seront fournis par ARTM.
+- Les fichiers `forticlient.msi`, `forticlient.mst` et `forticlientsetup_7.4.7_x64.exe` seront fournis par ARTM.
 - STM déposera le script et les fichiers MSI/MST via GPO.
 - L'installation doit s'exécuter en contexte ordinateur, idéalement `Local System`, ou dans un contexte administratif équivalent.
 - L'installation est silencieuse et ne force pas de redémarrage.
@@ -59,7 +59,7 @@ Le script doit être exécuté en contexte ordinateur, avant l'ouverture de sess
 ## Disposition attendue côté STM
 
 Le script suppose que le MSI et le MST se trouvent dans le même dossier que le fichier `.bat`.
-Le dossier `package/` de ce dépôt sert de zone de préparation pour recevoir les fichiers EMS générés par ARTM. Pour l'exécution réelle par GPO, STM doit copier `FortiClient.msi` et `FortiClient.mst` dans le même dossier que le script, ou ajuster les chemins relatifs dans le script.
+Le dossier `package/` de ce dépôt sert de zone de préparation pour recevoir les fichiers EMS générés par ARTM. Pour l'exécution réelle par GPO, STM doit copier `forticlient.msi` et `forticlient.mst` dans le même dossier que le script, ou ajuster les chemins relatifs dans le script.
 
 Disposition minimale recommandée dans le partage ou l'emplacement GPO:
 
@@ -67,8 +67,9 @@ Disposition minimale recommandée dans le partage ou l'emplacement GPO:
 FortiClient_GPO_STM/
 ├── install_forticlient_stm.bat
 ├── uninstall_forticlient_stm.bat
-├── FortiClient.msi
-└── FortiClient.mst
+├── forticlient.msi
+├── forticlient.mst
+└── forticlientsetup_7.4.7_x64.exe
 ```
 
 Si STM conserve une structure avec sous-dossiers, il faudra ajuster les variables `MSI_FILE` et `MST_FILE` dans le script.
@@ -93,13 +94,15 @@ Tout autre code est retourné par le script afin que STM puisse diagnostiquer l'
 
 STM a demandé un MSI, les fichiers nécessaires et un script `.bat` pour installation silencieuse par GPO.
 
-Le fichier `FortiClient.msi` contient l'installateur. Le fichier `FortiClient.mst` contient les paramètres de transformation générés avec le paquet EMS Cloud. Les deux fichiers doivent être disponibles au moment de l'exécution du script.
+Le fichier `forticlient.msi` contient l'installateur utilisé par le script GPO. Le fichier `forticlient.mst` contient les paramètres de transformation générés avec le paquet EMS Cloud. Les deux fichiers doivent être disponibles au moment de l'exécution du script.
+
+Le fichier `forticlientsetup_7.4.7_x64.exe` fait partie du paquet généré par EMS, mais le script GPO fourni ici lance l'installation par `msiexec.exe` avec le MSI/MST.
 
 Les noms doivent correspondre aux variables du script:
 
 ```cmd
-MSI_FILE=%PACKAGE_DIR%FortiClient.msi
-MST_FILE=%PACKAGE_DIR%FortiClient.mst
+MSI_FILE=%PACKAGE_DIR%forticlient.msi
+MST_FILE=%PACKAGE_DIR%forticlient.mst
 ```
 
 ## GROUP_TAG / Installer ID
@@ -136,7 +139,7 @@ C:\ProgramData\Fortinet\FortiClient\InstallLogs\FortiClient_STM_uninstall.log
 
 Sur un poste cible:
 
-- Confirmer que `C:\Program Files\Fortinet\FortiClient\FortiClient.exe` existe.
+- Confirmer que FortiClient apparaît dans les applications installées Windows.
 - Vérifier le journal d'installation dans `C:\ProgramData\Fortinet\FortiClient\InstallLogs`.
 - Confirmer que le poste apparaît dans FortiClient EMS Cloud.
 - Confirmer que le poste rejoint le bon groupe EMS.
