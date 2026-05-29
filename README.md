@@ -1,17 +1,17 @@
 # FortiClient GPO Automation
 
-This repository contains the deployment material for a FortiClient EMS Cloud package intended to be deployed by STM through Microsoft Group Policy.
+This repository provides a reusable FortiClient EMS Cloud deployment toolkit for Microsoft Group Policy environments.
 
-ARTM prepares the package and scripts. STM receives a small release folder, adds it to the appropriate GPO distribution location, and runs the installer as a computer startup script.
+The project includes reusable install and uninstall scripts, package staging guidance, a release-ready folder structure, and validation documentation for Windows endpoint deployments.
 
 ## Context
 
-STM requested an MSI-based FortiClient deployment package with the required supporting files and a `.bat` script for silent installation through GPO.
+This package supports an MSI-based FortiClient deployment with the required supporting files and a `.bat` script for silent installation through GPO.
 
-The current package targets the CS LEGER deployment profile:
+The current package uses configurable EMS deployment values:
 
-- EMS group tag / Installer ID: `VP_CS_LEGER`
-- VPN profile expected from EMS: `VPN-CERT`
+- EMS group tag / Installer ID: `YOUR_EMS_GROUP_TAG`
+- VPN profile expected from EMS: `YOUR_VPN_PROFILE`
 - Deployment method: Microsoft GPO computer startup script
 - Execution context: computer context / Local System / administrative context
 - Reboot behavior: do not force reboot
@@ -26,24 +26,24 @@ forticlient-gpo-automation/
 ├── README.md
 ├── .gitignore
 └── forticlient-gpo-deployment/
-    ├── README_STM_Deploiement_GPO.md
+    ├── README_Deploiement_GPO.md
     ├── CHANGELOG.md
     ├── package/
     │   └── README_PLACE_FORTICLIENT_FILES_HERE.md
     ├── scripts/
-    │   ├── install_forticlient_stm.bat
-    │   └── uninstall_forticlient_stm.bat
+    │   ├── install_forticlient_gpo.bat
+    │   └── uninstall_forticlient_gpo.bat
     ├── docs/
     │   ├── validation_checklist.md
-    │   └── email_instructions_STM.md
+    │   └── email_instructions.md
     └── release/
-        └── FortiClient_CS_LITE_GPO/
-            ├── install_forticlient_stm.bat
-            ├── uninstall_forticlient_stm.bat
-            └── README_STM_Deploiement_GPO.txt
+        └── FortiClient_GPO_Package/
+            ├── install_forticlient_gpo.bat
+            ├── uninstall_forticlient_gpo.bat
+            └── README_Deploiement_GPO.txt
 ```
 
-`docs/email_instructions_STM.md` is an internal helper note and is ignored by Git. It should not be included in the STM release package.
+`docs/email_instructions.md` is an internal helper note and is ignored by Git. It should not be included in the public release package.
 
 ## EMS Generated Files
 
@@ -67,7 +67,7 @@ The setup EXE is expected as part of the EMS package, but the GPO installation c
 
 ## What The Install Script Does
 
-[install_forticlient_stm.bat](forticlient-gpo-deployment/scripts/install_forticlient_stm.bat) is designed for GPO startup script usage.
+[install_forticlient_gpo.bat](forticlient-gpo-deployment/scripts/install_forticlient_gpo.bat) is designed for GPO startup script usage.
 
 It performs these actions:
 
@@ -79,7 +79,7 @@ It performs these actions:
 - Validates that `forticlient.mst` exists.
 - Warns if `forticlientsetup_7.4.7_x64.exe` is missing, but continues because installation uses MSI/MST.
 - Runs a silent install with `msiexec.exe`.
-- Uses `GROUP_TAG=VP_CS_LEGER`.
+- Uses `GROUP_TAG=YOUR_EMS_GROUP_TAG`.
 - Uses `/qn` and `/norestart`.
 - Treats installer exit codes `0`, `3010`, and `1641` as success.
 - Returns any other MSI exit code for troubleshooting.
@@ -92,7 +92,7 @@ msiexec.exe /i "%MSI_FILE%" TRANSFORMS="%MST_FILE%" GROUP_TAG="%GROUP_TAG%" /qn 
 
 ## What The Uninstall Script Does
 
-[uninstall_forticlient_stm.bat](forticlient-gpo-deployment/scripts/uninstall_forticlient_stm.bat) is intended for rollback scenarios.
+[uninstall_forticlient_gpo.bat](forticlient-gpo-deployment/scripts/uninstall_forticlient_gpo.bat) is intended for rollback scenarios.
 
 It performs these actions:
 
@@ -109,29 +109,29 @@ Uninstall behavior may depend on EMS policy, tamper protection, and administrati
 
 ## Release Folder
 
-The folder intended to be zipped and sent to STM is:
+The release-ready folder is:
 
 ```text
-forticlient-gpo-deployment/release/FortiClient_CS_LITE_GPO/
+forticlient-gpo-deployment/release/FortiClient_GPO_Package/
 ```
 
 Before zipping, manually copy the EMS-generated files into that release folder:
 
 ```text
-FortiClient_CS_LITE_GPO/
+FortiClient_GPO_Package/
 ├── forticlient.msi
 ├── forticlient.mst
 ├── forticlientsetup_7.4.7_x64.exe
-├── install_forticlient_stm.bat
-├── uninstall_forticlient_stm.bat
-└── README_STM_Deploiement_GPO.txt
+├── install_forticlient_gpo.bat
+├── uninstall_forticlient_gpo.bat
+└── README_Deploiement_GPO.txt
 ```
 
-Only this release folder should be zipped for STM. The broader repo docs, internal email notes, and staging material are for ARTM/developer use.
+Only this release folder should be distributed. The broader repo docs, internal notes, and staging material are for development and maintenance.
 
-## STM Deployment Summary
+## Deployment Summary
 
-STM should deploy the install script as a computer startup script:
+Deploy the install script as a computer startup script:
 
 ```text
 Computer Configuration
@@ -152,7 +152,7 @@ At a minimum, validate that:
 - FortiClient installs silently.
 - Logs are created under `C:\ProgramData\Fortinet\FortiClient\InstallLogs`.
 - The endpoint appears in EMS.
-- The endpoint is assigned to the expected EMS group through `VP_CS_LEGER`.
+- The endpoint is assigned to the expected EMS group through `YOUR_EMS_GROUP_TAG`.
 - The appropriate VPN profile is received.
 
 ## Notes For Maintainers

@@ -1,12 +1,12 @@
-# Liste de validation - Déploiement FortiClient GPO STM
+# Liste de validation - Déploiement FortiClient GPO
 
 ## 1. Pré-déploiement
 
 - [ ] Le paquet FortiClient a été généré depuis FortiClient EMS Cloud.
-- [ ] Les fichiers `forticlient.msi`, `forticlient.mst` et `forticlientsetup_7.4.7_x64.exe` ont été fournis par ARTM.
-- [ ] Les fichiers MSI/MST sont placés dans le même dossier que `install_forticlient_stm.bat`, ou les chemins du script ont été ajustés.
-- [ ] Le group tag / Installer ID attendu est `VP_CS_LEGER`.
-- [ ] Le profil attendu est `VPN-CERT`.
+- [ ] Les fichiers `forticlient.msi`, `forticlient.mst` et `forticlientsetup_7.4.7_x64.exe` doivent être ajoutés avant la distribution.
+- [ ] Les fichiers MSI/MST sont placés dans le même dossier que `install_forticlient_gpo.bat`, ou les chemins du script ont été ajustés.
+- [ ] Le group tag / Installer ID attendu est `YOUR_EMS_GROUP_TAG`.
+- [ ] Le profil attendu est `YOUR_VPN_PROFILE`.
 - [ ] Le déploiement ne contient pas de configuration breakglass VPN par défaut.
 - [ ] Le comportement Always-On est exclu de ce script et sera validé plus tard.
 
@@ -31,12 +31,12 @@
 
 - [ ] Le poste apparaît dans FortiClient EMS Cloud.
 - [ ] Le poste est associé au bon groupe EMS.
-- [ ] L'Installer ID / group tag `VP_CS_LEGER` est reconnu comme prévu.
+- [ ] L'Installer ID / group tag `YOUR_EMS_GROUP_TAG` est reconnu comme prévu.
 - [ ] Les politiques attendues sont appliquées au poste.
 
-## 5. Validation VPN-CERT
+## 5. Validation du profil VPN
 
-- [ ] Le profil `VPN-CERT` est reçu par FortiClient.
+- [ ] Le profil `YOUR_VPN_PROFILE` est reçu par FortiClient.
 - [ ] Le poste possède le certificat requis pour le test VPN.
 - [ ] La connexion VPN par certificat fonctionne.
 - [ ] Le comportement de sélection du certificat est validé si plusieurs certificats existent sur le poste.
@@ -49,7 +49,7 @@
 - [ ] Codes d'erreur observés, le cas échéant.
 - [ ] Temps moyen avant apparition dans EMS.
 - [ ] Groupe EMS réellement attribué.
-- [ ] Réception du profil `VPN-CERT`.
+- [ ] Réception du profil `YOUR_VPN_PROFILE`.
 - [ ] Résultats des tests VPN par certificat.
 - [ ] Cas avec plusieurs certificats sur le poste.
 - [ ] Résultat de la validation Always-On lorsqu'elle sera effectuée.
