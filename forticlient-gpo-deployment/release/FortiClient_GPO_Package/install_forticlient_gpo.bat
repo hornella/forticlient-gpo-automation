@@ -1,7 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM FortiClient EMS Cloud install script for STM GPO deployment.
+REM FortiClient EMS Cloud install script for GPO deployment.
 REM Designed for computer startup script usage in Local System/admin context.
 REM No interactive prompt is used and no reboot is forced.
 
@@ -9,9 +9,9 @@ set "PACKAGE_DIR=%~dp0"
 set "MSI_FILE=%PACKAGE_DIR%forticlient.msi"
 set "MST_FILE=%PACKAGE_DIR%forticlient.mst"
 set "SETUP_EXE=%PACKAGE_DIR%forticlientsetup_7.4.7_x64.exe"
-set "GROUP_TAG=VP_CS_LEGER"
+set "GROUP_TAG=YOUR_EMS_GROUP_TAG"
 set "LOG_DIR=C:\ProgramData\Fortinet\FortiClient\InstallLogs"
-set "LOG_FILE=%LOG_DIR%\FortiClient_STM_install.log"
+set "LOG_FILE=%LOG_DIR%\FortiClient_GPO_install.log"
 set "PRODUCT_DETECT_FILE=%TEMP%\forticlient_installed.txt"
 
 if not exist "%LOG_DIR%" (
@@ -19,7 +19,7 @@ if not exist "%LOG_DIR%" (
 )
 
 echo ============================================================ >> "%LOG_FILE%"
-echo FortiClient STM installation started: %DATE% %TIME% >> "%LOG_FILE%"
+echo FortiClient GPO installation started: %DATE% %TIME% >> "%LOG_FILE%"
 echo Hostname: %COMPUTERNAME% >> "%LOG_FILE%"
 echo Package path: %PACKAGE_DIR% >> "%LOG_FILE%"
 echo Group tag / Installer ID: %GROUP_TAG% >> "%LOG_FILE%"
@@ -59,7 +59,7 @@ if not exist "%SETUP_EXE%" (
     echo WARNING: EMS setup EXE not found: "%SETUP_EXE%". Continuing because this GPO script installs from MSI/MST. >> "%LOG_FILE%"
 )
 
-REM If the EMS-generated package already embeds the Installer ID, STM/ARTM may remove
+REM If the EMS-generated package already embeds the Installer ID, you may remove
 REM GROUP_TAG="%GROUP_TAG%" from the msiexec command below.
 echo Running silent FortiClient installation. >> "%LOG_FILE%"
 msiexec.exe /i "%MSI_FILE%" TRANSFORMS="%MST_FILE%" GROUP_TAG="%GROUP_TAG%" /qn /norestart /L*v "%LOG_FILE%"

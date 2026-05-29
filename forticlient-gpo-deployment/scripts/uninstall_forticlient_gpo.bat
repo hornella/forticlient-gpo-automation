@@ -1,12 +1,12 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM FortiClient EMS Cloud uninstall script for STM GPO rollback usage.
+REM FortiClient EMS Cloud uninstall script for GPO rollback usage.
 REM Uninstall behavior may depend on EMS policy, tamper protection, and administrative controls.
 REM Designed for computer/system context. No interactive prompt is used and no reboot is forced.
 
 set "LOG_DIR=C:\ProgramData\Fortinet\FortiClient\InstallLogs"
-set "LOG_FILE=%LOG_DIR%\FortiClient_STM_uninstall.log"
+set "LOG_FILE=%LOG_DIR%\FortiClient_GPO_uninstall.log"
 set "PRODUCT_CODE_FILE=%TEMP%\forticlient_product_code.txt"
 
 if not exist "%LOG_DIR%" (
@@ -14,7 +14,7 @@ if not exist "%LOG_DIR%" (
 )
 
 echo ============================================================ >> "%LOG_FILE%"
-echo FortiClient STM uninstall started: %DATE% %TIME% >> "%LOG_FILE%"
+echo FortiClient GPO uninstall started: %DATE% %TIME% >> "%LOG_FILE%"
 echo Hostname: %COMPUTERNAME% >> "%LOG_FILE%"
 
 if exist "%PRODUCT_CODE_FILE%" (
@@ -37,6 +37,47 @@ if not defined PRODUCT_CODE (
     echo FortiClient product code was not found. Nothing to uninstall. >> "%LOG_FILE%"
     exit /b 0
 )
+
+REM -----------------------------------------------------------------
+REM Simulate FortiClient GUI "Déconnecter" action before uninstall
+REM -----------------------------------------------------------------
+
+set "FORTIESNAC=%ProgramFiles%\Fortinet\FortiClient\FortiESNAC.exe"
+
+REM Optional: if your EMS profile requires a key/password to disconnect,
+REM put it here or inject it securely through GPO/environment variable.
+REM Example:
+REM set "DISCONNECT_KEY=YourDisconnectKey"
+set "DISCONNECT_KEY="
+
+if not exist "%FORTIESNAC%" (
+    set "FORTIESNAC=%ProgramFiles(x86)%\Fortinet\FortiClient\FortiESNAC.exe"
+)
+
+if exist "%FORTIESNAC%" (
+    echo Attempting FortiClient EMS disconnect using FortiESNAC.exe. >> "%LOG_FILE%"
+
+    if defined DISCONNECT_KEY (
+        "%FORTIESNAC%" -u -k "%DISCONNECT_KEY%" >> "%LOG_FILE%" 2>&1
+    ) else (
+        "%FORTIESNAC%" -u >> "%LOG_FILE%" 2>&1
+    )
+
+    set "DISCONNECT_EXIT_CODE=%ERRORLEVEL%"
+    echo FortiClient EMS disconnect exit code: %DISCONNECT_EXIT_CODE% >> "%LOG_FILE%"
+
+    REM Give FortiClient services time to process deregistration.
+    timeout /t 20 /nobreak >nul
+
+    echo FortiClient telemetry details after disconnect attempt: >> "%LOG_FILE%"
+    "%FORTIESNAC%" -d >> "%LOG_FILE%" 2>&1
+) else (
+    echo FortiESNAC.exe was not found. Skipping EMS disconnect attempt. >> "%LOG_FILE%"
+)
+
+REM -----------------------------------------------------------------
+REM Proceed with MSI uninstall
+REM -----------------------------------------------------------------
 
 echo Detected FortiClient product code: %PRODUCT_CODE% >> "%LOG_FILE%"
 echo Running silent FortiClient uninstall. >> "%LOG_FILE%"
